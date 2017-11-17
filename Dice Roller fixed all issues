@@ -82,3 +82,4 @@ for (int x = 0; x < diceVector.size(); x++)
 }
 
 string programEnd = "null";
+}
