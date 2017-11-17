@@ -1,0 +1,84 @@
+// Dice roller.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <string>
+#include <time.h>
+#include <stdlib.h>
+#include <sstream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int main ()
+{
+	srand(time(NULL));
+cout << "Please enter a number of dice and number of sides separated by a d (example: 2d6).\n";
+
+//Create the necessary variables
+string diceInput = "0d0";
+int diceInputLength;
+string d = "d";
+string diceNumberstr;
+string diceSidesstr;
+int diceNumber = 0;
+int diceSides = 0;
+int total = 0;
+vector<int> diceVector;
+
+//Ask for input and find the separation
+cin >> diceInput;
+diceInputLength = diceInput.length();
+size_t separate = diceInput.find(d);
+
+//Create the dice number and sides
+diceNumberstr = diceInput.substr(0, separate);
+diceSidesstr = diceInput.substr(separate + 1, diceInputLength);
+stringstream number(diceNumberstr);
+number >> diceNumber;
+stringstream sides(diceSidesstr);
+sides >> diceSides;
+
+
+//roll the dice
+for (int x = 0; x < diceNumber; x++)
+{
+	int a = rand() % diceSides + 1;
+	diceVector.push_back(a);
+	total += a;
+	cout << diceVector[x] << "\n";
+}
+cout << "The total rolled is " << total << ".\n";
+
+
+
+//find the advantage/disadvantage rolls for each
+if (diceVector.size() % 2 == 0)
+{
+	for (int x = 0; x < diceVector.size(); x += 2)
+	{
+		if (diceVector[x] > diceVector[x + 1])
+		{
+			cout << "Advantage " << diceVector[x] << ". Disadvantage " << diceVector[x + 1] << ".\n";
+		}
+		else
+		{
+			cout << "Advantage " << diceVector[x + 1] << ". Disadvantage " << diceVector[x] << ".\n";
+		}
+	}
+}
+else
+{
+	cout << "You need an even number of dice to get advantage rolls or disadvantage rolls.\n";
+}
+
+
+//put the dice in order
+sort(diceVector.begin(), diceVector.end());
+cout << "Now to put them in order.\n";
+for (int x = 0; x < diceVector.size(); x++)
+{
+	cout << diceVector[x] << "\n";
+}
+
+string programEnd = "null";
